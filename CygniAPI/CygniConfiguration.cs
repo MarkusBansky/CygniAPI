@@ -11,7 +11,7 @@ namespace CygniAPI
         /// Edit this field if you wish to add more request types supported by the server,
         /// or wish to remove any esxisting.
         /// </summary>
-        public RequestType[] AllowedRequestTypes = new[] { RequestType.GET, RequestType.POST };
+        public RequestType[] AllowedRequestTypes = { RequestType.GET, RequestType.POST };
 
         /// <summary>
         /// Edit this field if you want server to be listening on different port.

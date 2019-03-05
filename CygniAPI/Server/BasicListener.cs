@@ -11,20 +11,24 @@ namespace CygniAPI.Server
 {
     internal class BasicListener : IDisposable
     {
-        
-
-        private Thread       _thread;
+        #region Private Variables
+        private CancellationTokenSource _threadCTS;
         private HttpListener _listener;
         private bool         _isListening;
+        private bool         _isDisposed;
 
         private List<Callback> _registeredCallbacks;
         private CygniConfiguration _config;
+        #endregion
 
+        #region Constructors
         public BasicListener(CygniConfiguration config)
         {
             Initialize(config);
         }
+        #endregion
 
+        #region Basic Server Operations (Start, Stop, Dispose, Initialize)
         private void Initialize(CygniConfiguration config)
         {
             _config = config;
@@ -38,25 +42,44 @@ namespace CygniAPI.Server
                 throw new Exception("The server is already running and listening.");
             }
 
-            _thread = new Thread(Listen);
-            _thread.Start();
+            _threadCTS = new CancellationTokenSource();
+            ThreadPool.QueueUserWorkItem(new WaitCallback(Listen), _threadCTS.Token);
+
+            #region Deprecated
+            //_thread = new Thread(Listen);
+            //_thread.Start();
+            #endregion
         }
 
         public void Stop()
         {
             _isListening = false;
 
-            _thread.Suspend();
+            #region Deprecated
+            //_thread.Suspend();
+            #endregion
+
+            _threadCTS.Cancel();
             _listener.Stop();
         }
 
         public void Dispose()
         {
-            Stop();
-        }
+            if (_isDisposed) return;
 
-        private void Listen()
+            Stop();
+            _threadCTS.Dispose();
+
+            _isDisposed = true;
+        }
+        #endregion
+
+        #region Server Listening Thread Method
+        private void Listen(object state)
         {
+            // Make a cancelation token
+            var token = (CancellationToken)state;
+
             // Initialize the listener instance and set
             // all required parameters. Start listener.
             _listener = new HttpListener();
@@ -70,6 +93,8 @@ namespace CygniAPI.Server
             // While loop to listen for the requests.
             while (_isListening)
             {
+                if (token.IsCancellationRequested) break;
+
                 try
                 {
                     var inContext = _listener.GetContext();
@@ -89,6 +114,7 @@ namespace CygniAPI.Server
                 }
             }
         }
+        #endregion
 
         private void Process(HttpListenerContext c)
         {
