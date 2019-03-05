@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Text;
+using CygniAPI.Server;
 
 namespace CygniAPI.Contexts
 {
@@ -11,16 +12,23 @@ namespace CygniAPI.Contexts
         /// <summary>
         /// Holds the main object that is passed from the Http server
         /// </summary>
-        public readonly HttpListenerContext Context;
+        public readonly StringBuilder SBuilder;
+
+        /// <summary>
+        /// he type of this request.
+        /// </summary>
+        public readonly RequestType RequestType;
 
         /// <summary>
         /// Initializes a context that is passed into the function that handles the API call.
         /// This class handles the input data to the function from the user request.
         /// </summary>
-        /// <param name="context">A raw context from Http server.</param>
-        public InContext(HttpListenerContext context)
+        /// <param name="builder">A raw string builder from Http server.</param>
+        /// <param name="reqType">The type of request that is held.</param>
+        public InContext(StringBuilder builder, RequestType reqType)
         {
-            Context = context;
+            SBuilder = builder;
+            RequestType = reqType;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using CygniAPI.Contexts;
+﻿using System.Text;
 
 namespace CygniAPI.Requests
 {
@@ -12,7 +12,8 @@ namespace CygniAPI.Requests
         /// going to be invoked and then the main Http context that is an input is going to be passed into. After this function processes
         /// the output it is passed to the next parameter.
         /// </summary>
-        /// <param name="cIn">The input context from Http server.</param>
-        public delegate void HostRequest(InContext cIn);
+        /// <param name="inputRequest">The input request body from the Http server.</param>
+        /// <param name="response">The input context from Http server.</param>
+        public delegate void HostRequest(string inputRequest, StringBuilder response);
     }
 }
