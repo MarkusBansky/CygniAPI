@@ -13,13 +13,13 @@ namespace Tests
         [SetUp]
         public void Setup()
         {
-            Server = new CygniApiServer();
+            Server = new CygniApiServer(new CygniAPI.Server.CygniConfiguration { ListeningPath = "localhost", ListeningPort = 8080 });
         }
 
         [Test]
         public void RegisterTheCallbackForSimpleGet()
         {
-            Server.Get("test", (i, o) =>
+            Server.Get("/test", (i, o) =>
             {
                 Console.WriteLine(i);
                 o.Append("THIS IS JUST A TEST");
@@ -29,12 +29,17 @@ namespace Tests
         [Test]
         public void StartTheServer()
         {
+            RegisterTheCallbackForSimpleGet();
+
             Server.Start();
         }
 
         [Test]
         public void MakeATestReguest()
         {
+            RegisterTheCallbackForSimpleGet();
+            StartTheServer();
+
             Requests.Get("http://localhost:8080/test");
         }
     }
@@ -44,7 +49,6 @@ namespace Tests
         public static string Get(string uri)
         {
             var request = (HttpWebRequest)WebRequest.Create(uri);
-            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
             using var response = (HttpWebResponse)request.GetResponse();
             using var stream = response.GetResponseStream();

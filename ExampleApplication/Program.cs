@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace ExampleApplication
 {
@@ -14,15 +15,29 @@ namespace ExampleApplication
     {
         public Application()
         {
-            var server = new CygniAPI.CygniApiServer(new CygniAPI.Server.CygniConfiguration
+            var config = new CygniAPI.Server.CygniConfiguration{ ListeningPath = "localhost", ListeningPort = 8080 };
+            var server = new CygniAPI.CygniApiServer(config);
+
+            // Register several different requests
+            server.Get("/sayhello", (i, o) =>
             {
-                ListeningPath = "localhost",
-                ListeningPort = 8080
+                Console.WriteLine("The page says hello.");
+                o.Append("Hello.");
             });
-            server.Get("test", (i, o) =>
+
+            server.Get("/date", (i, o) =>
             {
-                Console.WriteLine("THIS IS FUKING TEST");
+                Console.WriteLine("The page displays current date in UTC.");
+                o.Append(DateTime.UtcNow);
             });
+
+            server.Get("/config", (i, o) =>
+            {
+                Console.WriteLine("The page displays server config.");
+                o.Append(JsonConvert.SerializeObject(config));
+            });
+
+
             server.Start();
 
             Console.WriteLine("Press space to stop");
@@ -32,6 +47,10 @@ namespace ExampleApplication
             {
                 result = (int)Console.ReadKey().Key;
             }
+
+            server.Stop();
+            server = null;
+            GC.Collect();
         }
     }
 }

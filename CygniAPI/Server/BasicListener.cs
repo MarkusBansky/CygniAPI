@@ -71,6 +71,13 @@ namespace CygniAPI.Server
                 try
                 {
                     var inContext = _listener.GetContext();
+                    var request = inContext.Request;
+
+                    // Sort out the call to the favicon
+                    var url = request.RawUrl.Substring(1);
+                    if(url == "favicon.ico") continue;
+
+                    // Process the call
                     Process(inContext);
                 }
                 catch
@@ -84,8 +91,9 @@ namespace CygniAPI.Server
         private void Process(HttpListenerContext c)
         {
             var registeredCallback = _registeredCallbacks
-                .Where(rc => rc.RequestType == 
-                    (RequestType)Enum.Parse(typeof(RequestType), c.Request.HttpMethod.ToUpperInvariant()))
+                .Where(rc => 
+                    rc.Url == c.Request.RawUrl && 
+                    rc.RequestType == (RequestType)Enum.Parse(typeof(RequestType), c.Request.HttpMethod.ToUpperInvariant()))
                 .FirstOrDefault();
 
             if(registeredCallback.RequestDelegate != null)
