@@ -1,12 +1,7 @@
 # CygniAPI
 **CygniAPI is a lightweight sowftware package that helps you easily create and host API requests and create a very basic RESTful service.**
 
-The service can hold basic requests types such as:
-
- - GET
- - POST
- - PUT
- - DELETE
+The service can hold basic requests types such as: `GET`, `POST`, `PUT`, `DELETE`.
 
 Every instance of the service can hold it's own configuration. You can set your configuration by passing a new *struct* to the constructor method:
 
