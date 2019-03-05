@@ -38,7 +38,7 @@
             A basic configured API server.
             </summary>
         </member>
-        <member name="M:CygniAPI.CygniApiServer.#ctor(CygniAPI.Server.CygniConfiguration)">
+        <member name="M:CygniAPI.CygniApiServer.#ctor(CygniAPI.CygniConfiguration)">
             <summary>
             Constructor creates a new listener and applies the configuration.
             </summary>
@@ -66,26 +66,40 @@
             <param name="path">The path that the server has to be listening to.</param>
             <param name="reqFunction">The function that performs all the calculations.</param>
         </member>
-        <member name="T:CygniAPI.Server.CygniConfiguration">
+        <member name="T:CygniAPI.CygniConfiguration">
             <summary>
             Contains all required configuration for the server.
             </summary>
         </member>
-        <member name="F:CygniAPI.Server.CygniConfiguration.AllowedRequestTypes">
+        <member name="F:CygniAPI.CygniConfiguration.AllowedRequestTypes">
             <summary>
             Edit this field if you wish to add more request types supported by the server,
             or wish to remove any esxisting.
             </summary>
         </member>
-        <member name="F:CygniAPI.Server.CygniConfiguration.ListeningPort">
+        <member name="F:CygniAPI.CygniConfiguration.ListeningPort">
             <summary>
             Edit this field if you want server to be listening on different port.
             </summary>
         </member>
-        <member name="F:CygniAPI.Server.CygniConfiguration.ListeningPath">
+        <member name="F:CygniAPI.CygniConfiguration.ListeningPath">
             <summary>
             Edit this field if you want to change the hostname of server listening endpoint.
             </summary>
+        </member>
+        <member name="T:CygniAPI.Requests.Functions">
+            <summary>
+            Handles main delegate functions that are used in the API calls.
+            </summary>
+        </member>
+        <member name="T:CygniAPI.Requests.Functions.HostRequest">
+            <summary>
+            Used to handle the API call to a specific URL address, when the call is executed then this method is
+            going to be invoked and then the main Http context that is an input is going to be passed into. After this function processes
+            the output it is passed to the next parameter.
+            </summary>
+            <param name="inputRequest">The input request body from the Http server.</param>
+            <param name="response">The input context from Http server.</param>
         </member>
         <member name="T:CygniAPI.Server.RequestType">
             <summary>
@@ -111,20 +125,6 @@
             <summary>
             Makes a request to delete some data, does not send or receive any data in the body.
             </summary>
-        </member>
-        <member name="T:CygniAPI.Requests.Functions">
-            <summary>
-            Handles main delegate functions that are used in the API calls.
-            </summary>
-        </member>
-        <member name="T:CygniAPI.Requests.Functions.HostRequest">
-            <summary>
-            Used to handle the API call to a specific URL address, when the call is executed then this method is
-            going to be invoked and then the main Http context that is an input is going to be passed into. After this function processes
-            the output it is passed to the next parameter.
-            </summary>
-            <param name="inputRequest">The input request body from the Http server.</param>
-            <param name="response">The input context from Http server.</param>
         </member>
     </members>
 </doc>

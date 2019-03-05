@@ -20,18 +20,21 @@ namespace ExampleApplication
             var server = new CygniApiServer(config);
 
             // Register several different requests
+            Console.WriteLine($"http://{config.ListeningPath}:{config.ListeningPort}/hello\t\tsends a greeting message to the screen.");
             server.Get("/sayhello", (i, o) =>
             {
                 Console.WriteLine("The page says hello.");
                 o.Append("Hello.");
             });
 
+            Console.WriteLine($"http://{config.ListeningPath}:{config.ListeningPort}/date\t\tdisplays the current date time n the page.");
             server.Get("/date", (i, o) =>
             {
                 Console.WriteLine("The page displays current date in UTC.");
                 o.Append(DateTime.UtcNow);
             });
 
+            Console.WriteLine($"http://{config.ListeningPath}:{config.ListeningPort}/config\t\tdisplays the current configuration of the server.");
             server.Get("/config", (i, o) =>
             {
                 Console.WriteLine("The page displays server config.");

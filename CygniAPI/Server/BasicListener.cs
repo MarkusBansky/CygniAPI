@@ -11,6 +11,8 @@ namespace CygniAPI.Server
 {
     internal class BasicListener : IDisposable
     {
+        
+
         private Thread       _thread;
         private HttpListener _listener;
         private bool         _isListening;
@@ -44,7 +46,7 @@ namespace CygniAPI.Server
         {
             _isListening = false;
 
-            _thread.Abort();
+            _thread.Suspend();
             _listener.Stop();
         }
 
