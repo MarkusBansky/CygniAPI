@@ -14,7 +14,7 @@ new CygniConfiguration
 }
 ```
 
-Depending on your rights and the system you are running your project, you probably would have to reserver the host and the port for your user to be able to host the server on your machine.
+Depending on your rights and the system you are running your project, you probably would have to reserve the host and the port for your user to be able to host the server on your machine.
 
 ## Getting started
 
@@ -43,7 +43,6 @@ Now we can register your first callback function, let us choose it to display cu
 // This method adds a callback function replying to request type **GET**
 server.Get("/date", (i, o) =>
 {
-    Console.WriteLine("The page displays current date in UTC.");
     o.Append(DateTime.UtcNow);
 });
 ```
