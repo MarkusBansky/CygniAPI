@@ -1,4 +1,5 @@
 ﻿using System;
+using CygniAPI;
 using Newtonsoft.Json;
 
 namespace ExampleApplication
@@ -15,8 +16,8 @@ namespace ExampleApplication
     {
         public Application()
         {
-            var config = new CygniAPI.Server.CygniConfiguration{ ListeningPath = "localhost", ListeningPort = 8080 };
-            var server = new CygniAPI.CygniApiServer(config);
+            var config = new CygniConfiguration{ ListeningPath = "localhost", ListeningPort = 8080 };
+            var server = new CygniApiServer(config);
 
             // Register several different requests
             server.Get("/sayhello", (i, o) =>

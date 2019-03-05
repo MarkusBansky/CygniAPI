@@ -1,4 +1,6 @@
-﻿namespace CygniAPI.Server
+﻿using CygniAPI.Server;
+
+namespace CygniAPI
 {
     /// <summary>
     /// Contains all required configuration for the server.

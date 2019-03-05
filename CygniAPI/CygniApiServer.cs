@@ -1,5 +1,4 @@
-﻿using System;
-using CygniAPI.Server;
+﻿using CygniAPI.Server;
 using static CygniAPI.Requests.Functions;
 
 namespace CygniAPI
