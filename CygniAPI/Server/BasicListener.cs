@@ -12,24 +12,22 @@ namespace CygniAPI.Server
         private HttpListener _listener;
         private bool         _isListening;
 
-        private List<HostRequest> _registeredCallbacks;
+        private List<Callback> _registeredCallbacks;
+        private CygniConfiguration _config;
 
-        public string ListenPath { get; private set; }
-
-        public int ListenPort { get; private set; }
-
-        public BasicListener(string path, int port)
+        public BasicListener(CygniConfiguration config)
         {
-            Initialize(path, port);
+            Initialize(config);
         }
 
-        private void Initialize(string path, int port)
+        private void Initialize(CygniConfiguration config)
         {
-            _registeredCallbacks = new List<HostRequest>();
+            _config = config;
+            _registeredCallbacks = new List<Callback>();
+        }
 
-            ListenPath = path;
-            ListenPort = port;
-
+        public void Start()
+        {
             _thread = new Thread(Listen);
             _thread.Start();
         }
@@ -52,7 +50,7 @@ namespace CygniAPI.Server
             // Initialize the listener instance and set
             // all required parameters. Start listener.
             _listener = new HttpListener();
-            _listener.Prefixes.Add($"http://*:{ListenPort.ToString()}/");
+            _listener.Prefixes.Add($"http://*:{_config.ListeningPort.ToString()}/");
             _listener.Start();
 
             // Set the listening variable to true when
@@ -78,7 +76,8 @@ namespace CygniAPI.Server
 
         public void Get(string path, HostRequest reqFunction)
         {
-            _registeredCallbacks.Add(reqFunction);
+            var cb = new Callback(path, reqFunction, RequestType.GET);
+            _registeredCallbacks.Add(cb);
         }
 
         #endregion
