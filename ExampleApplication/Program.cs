@@ -41,10 +41,17 @@ namespace ExampleApplication
                 o.Append(JsonConvert.SerializeObject(config));
             });
 
+            Console.WriteLine($"http://{config.ListeningPath}:{config.ListeningPort}/self\t\tdisplays the current request class in JSON.");
+            server.Get("/self", (i, o) =>
+            {
+                Console.WriteLine("The page displays self request.");
+                var newContext = i;
+                o.Append(JsonConvert.SerializeObject(newContext));
+            });
 
             server.Start();
 
-            Console.WriteLine("Press space to stop");
+            Console.WriteLine("Press space to stop...\n\n");
 
             var result = 0;
             while(result != (int)ConsoleKey.Spacebar)

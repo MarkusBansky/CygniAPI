@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
+using CygniAPI.Contexts;
 using static CygniAPI.Requests.Functions;
 
 namespace CygniAPI.Server
@@ -44,20 +45,11 @@ namespace CygniAPI.Server
 
             _threadCTS = new CancellationTokenSource();
             ThreadPool.QueueUserWorkItem(new WaitCallback(Listen), _threadCTS.Token);
-
-            #region Deprecated
-            //_thread = new Thread(Listen);
-            //_thread.Start();
-            #endregion
         }
 
         public void Stop()
         {
             _isListening = false;
-
-            #region Deprecated
-            //_thread.Suspend();
-            #endregion
 
             _threadCTS.Cancel();
             _listener.Stop();
@@ -128,26 +120,24 @@ namespace CygniAPI.Server
             {
                 try
                 {
-                    // Create a reader and read all input data to the end
-                    using var reader = new StreamReader(c.Request.InputStream);
-                    var inputText = reader.ReadToEnd();
-
                     // Create input parameters for the request delegate that is defined by user
                     var builder = new StringBuilder();
+                    var inContext = new InContext(c.Request, registeredCallback.RequestType, registeredCallback.Url);
 
                     // Invoke the method that is defined by the user
-                    registeredCallback.RequestDelegate.Invoke(inputText, builder);
+                    registeredCallback.RequestDelegate.Invoke(inContext, builder);
                     var responseText = builder.ToString();
 
                     // Add content information
                     c.Response.ContentType = "application/json";
-                    c.Response.ContentLength64 = responseText.Length;
 
                     // Add headers
                     c.Response.AddHeader("Date", DateTime.UtcNow.ToString("r"));
 
                     // Write the response stream
                     var responseInBytes = Encoding.UTF8.GetBytes(responseText);
+                    c.Response.ContentLength64 = responseInBytes.Length;
+
                     using var ms = new MemoryStream(responseInBytes);
                     var buffer = new byte[1024 * 16];
                     int nbytes;

@@ -10,23 +10,90 @@
             to the function that handles the API call.
             </summary>
         </member>
-        <member name="F:CygniAPI.Contexts.InContext.SBuilder">
-            <summary>
-            Holds the main object that is passed from the Http server
-            </summary>
-        </member>
         <member name="F:CygniAPI.Contexts.InContext.RequestType">
             <summary>
             he type of this request.
             </summary>
         </member>
-        <member name="M:CygniAPI.Contexts.InContext.#ctor(System.Text.StringBuilder,CygniAPI.Server.RequestType)">
+        <member name="F:CygniAPI.Contexts.InContext.Url">
             <summary>
-            Initializes a context that is passed into the function that handles the API call.
-            This class handles the input data to the function from the user request.
+            The current request url.
             </summary>
-            <param name="builder">A raw string builder from Http server.</param>
-            <param name="reqType">The type of request that is held.</param>
+        </member>
+        <member name="F:CygniAPI.Contexts.InContext.Content">
+            <summary>
+            Represents the whole body of the request in a string format.
+            </summary>
+        </member>
+        <member name="F:CygniAPI.Contexts.InContext.ContentEncoding">
+            <summary>
+            Gets the content encoding that can be used with data sent with the request.
+            </summary>
+        </member>
+        <member name="F:CygniAPI.Contexts.InContext.ContentType">
+            <summary>
+            Gets the MIME type of the body data included in the request.
+            </summary>
+        </member>
+        <member name="F:CygniAPI.Contexts.InContext.ContentLength">
+            <summary>
+            Gets the length of the body data included in the request.
+            </summary>
+        </member>
+        <member name="F:CygniAPI.Contexts.InContext.Headers">
+            <summary>
+            Gets the collection of header name/value pairs sent in the request.
+            </summary>
+        </member>
+        <member name="F:CygniAPI.Contexts.InContext.IsSecureConnection">
+            <summary>
+            Gets a Boolean value that indicates whether the TCP connection used to send the request is using the Secure Sockets Layer (SSL) protocol.
+            </summary>
+        </member>
+        <member name="F:CygniAPI.Contexts.InContext.IsUserAuthenticated">
+            <summary>
+            Gets a Boolean value that indicates whether the client sending this request is authenticated.
+            </summary>
+        </member>
+        <member name="F:CygniAPI.Contexts.InContext.UserHostAddress">
+            <summary>
+            Gets the DNS name and, if provided, the port number specified by the client.
+            </summary>
+        </member>
+        <member name="F:CygniAPI.Contexts.InContext.UserLanguages">
+            <summary>
+            Gets the natural languages that are preferred for the response.
+            </summary>
+        </member>
+        <member name="F:CygniAPI.Contexts.InContext.UserHostName">
+            <summary>
+            Gets the DNS name and, if provided, the port number specified by the client.
+            </summary>
+        </member>
+        <member name="F:CygniAPI.Contexts.InContext.UserAgent">
+            <summary>
+            Gets the user agent presented by the client.
+            </summary>
+        </member>
+        <member name="F:CygniAPI.Contexts.InContext.Cookies">
+            <summary>
+            An array that contains cookies that accompany the request. This property returns an empty collection if the request does not contain cookies.
+            </summary>
+        </member>
+        <member name="T:CygniAPI.Contexts.InHeader">
+            <summary>
+            A single header from the input context request.
+            </summary>
+        </member>
+        <member name="F:CygniAPI.Contexts.InHeader.Key">
+            <summary>
+            Headers key.
+            </summary>
+        </member>
+        <member name="F:CygniAPI.Contexts.InHeader.Values">
+            <summary>
+            All values that are bound to the key.
+            </summary>
         </member>
         <member name="T:CygniAPI.CygniApiServer">
             <summary>
@@ -98,7 +165,7 @@
             going to be invoked and then the main Http context that is an input is going to be passed into. After this function processes
             the output it is passed to the next parameter.
             </summary>
-            <param name="inputRequest">The input request body from the Http server.</param>
+            <param name="request">The input request body from the Http server.</param>
             <param name="response">The input context from Http server.</param>
         </member>
         <member name="T:CygniAPI.Server.RequestType">
