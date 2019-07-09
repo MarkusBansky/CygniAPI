@@ -111,10 +111,9 @@ namespace CygniAPI.Server
         private void Process(HttpListenerContext c)
         {
             var registeredCallback = _registeredCallbacks
-                .Where(rc => 
-                    rc.Url == c.Request.RawUrl && 
-                    rc.RequestType == (RequestType)Enum.Parse(typeof(RequestType), c.Request.HttpMethod.ToUpperInvariant()))
-                .FirstOrDefault();
+                .FirstOrDefault(rc => rc.Url == c.Request.RawUrl && 
+                     rc.RequestType == (RequestType)Enum.Parse(typeof(RequestType), 
+                         c.Request.HttpMethod.ToUpperInvariant()));
 
             if(registeredCallback.RequestDelegate != null)
             {
